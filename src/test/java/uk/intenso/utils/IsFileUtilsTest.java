@@ -1,8 +1,6 @@
 package uk.intenso.utils;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +10,7 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class IsFileUtilsTest {
 
     private static final Logger log = LoggerFactory.getLogger(IsFileUtilsTest.class);
@@ -21,6 +20,7 @@ public class IsFileUtilsTest {
 
     @BeforeEach
     public void setup() throws IOException {
+        file = new File(location);
         IsFileUtils.writeToFile(file, "Line 1\n\nLine 3", false);
     }
 
@@ -52,8 +52,8 @@ public class IsFileUtilsTest {
     }
 
 
-    @AfterEach
+    @AfterAll
     public void tearDown() {
-        file.delete();
+        file.deleteOnExit();
     }
 }
